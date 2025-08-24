@@ -1,0 +1,26 @@
+{
+	"name": "domco-vue-elysia",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "bunx --bun vite",
+		"check": "tsc",
+		"build": "bunx --bun vite build",
+		"preview": "vite preview",
+		"format": " bunx biome check --write"
+	},
+	"dependencies": {
+		"elysia": "latest",
+		"vue": "^3.5.18",
+		"vue-router": "^4.5.1",
+		"@robino/tsconfig": "latest"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.2",
+		"@domcojs/vercel": "^3.0.0",
+		"@vitejs/plugin-vue": "^6.0.1",
+		"unocss": "^66.4.2",
+		"unocss-preset-animations": "^1.2.1"
+	}
+}
