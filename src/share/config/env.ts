@@ -87,7 +87,7 @@ export class EnvConfig {
 	 * @param customPath 自定义路径
 	 */
 	private getEnvPaths(environment: string, customPath?: string): string[] {
-		const projectRoot = process.cwd();
+		const projectRoot = process.cwd(); // 项目根目录
 		const paths: string[] = [];
 
 		if (customPath) {
@@ -102,8 +102,7 @@ export class EnvConfig {
 					join(
 						projectRoot,
 						"src",
-						"server",
-						"src",
+						"share",
 						".container",
 						"dev",
 						".env.development",
@@ -118,8 +117,7 @@ export class EnvConfig {
 					join(
 						projectRoot,
 						"src",
-						"server",
-						"src",
+						"share",
 						".container",
 						"prod",
 						".env.production",

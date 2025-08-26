@@ -1,3 +1,5 @@
+# 生产环境与服务器有关
+
 services:
   app:
     image: registry.cn-chengdu.aliyuncs.com/docker-tzd/mechanicendworld:${IMAGE_TAG:-latest}
