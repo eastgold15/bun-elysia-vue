@@ -13,7 +13,15 @@
 		"enabled": true,
 		"indentStyle": "tab"
 	},
+	"html": {
+		"formatter": {
+			"enabled": true
+		}
+	},
 	"linter": {
+		"domains": {
+			"vue": "recommended"
+		},
 		"enabled": true,
 		"rules": {
 			"recommended": true,

@@ -62,7 +62,6 @@ export default defineConfig({
 			},
 		}),
 		presetTypography(),
-
 		{
 			name: "unocss-preset-shadcn",
 			preflights: [
