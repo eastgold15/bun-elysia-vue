@@ -5,23 +5,28 @@ import { createApp } from "@/app/app";
 import { api } from "./src";
 
 const app = new Elysia()
-	.onRequest(async ({ request }) => {
-		const { pathname } = new URL(request.url);
+  .onRequest(async ({ request }) => {
+    const { pathname } = new URL(request.url);
 
-		const { app, router } = await createApp();
+    const { app, router } = await createApp();
 
-		const { matched } = router.resolve(pathname);
-		if (!matched.length) return;
+    // 如果是API路由，跳后端，不需要被前端拦截
+    if (pathname.startsWith("/api")) {
+      return;
+    }
 
-		await router.push(pathname);
-		await router.isReady();
+    const { matched } = router.resolve(pathname);
+    if (!matched.length) return;
 
-		const appHtml = await renderToString(app);
-		return new Response(page.html.replace("%root%", appHtml), {
-			headers: { "Content-Type": "text/html; charset=utf-8" },
-		});
-	})
-	.use(api);
+    await router.push(pathname);
+    await router.isReady();
+
+    const appHtml = await renderToString(app);
+    return new Response(page.html.replace("%root%", appHtml), {
+      headers: { "Content-Type": "text/html; charset=utf-8" },
+    });
+  })
+  .use(api);
 
 export default app;
 

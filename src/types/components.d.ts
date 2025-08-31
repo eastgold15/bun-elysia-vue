@@ -10,10 +10,5 @@ declare module 'vue' {
   export interface GlobalComponents {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SelectButton: typeof import('primevue/selectbutton')['default']
-    ToggleSwitch: typeof import('primevue/toggleswitch')['default']
-  }
-  export interface GlobalDirectives {
-    StyleClass: typeof import('primevue/styleclass')['default']
   }
 }
