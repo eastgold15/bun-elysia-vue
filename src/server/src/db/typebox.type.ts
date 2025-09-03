@@ -4,43 +4,50 @@
  * 请勿手动修改此文件
  */
 
-import { t } from 'elysia'
-import { createInsertSchema, createSelectSchema } from 'drizzle-typebox'
-// 内联 spreads 实现
-const spreads = (obj: any, type: string) => obj
+import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
+import { t } from "elysia";
 
-import { dbSchema } from './schema/index'
+// 内联 spreads 实现
+const spreads = (obj: any, type: string) => obj;
+
+import { dbSchema } from "./schema/index";
 
 /**
  * 数据库 TypeBox 配置
  */
 export const DbType = {
-  typebox: {
-    insert: {
-      userSchema: createInsertSchema(dbSchema.userSchema, {
-        email: t.String({ format: "email" })
-      }),
-      tokenSchema: createInsertSchema(dbSchema.tokenSchema),
-    },
-    select: {
-      userSchema: createSelectSchema(dbSchema.userSchema, {
-        email: t.String({ format: "email" })
-      }),
-      tokenSchema: createSelectSchema(dbSchema.tokenSchema),
-    }
-  },
-  spreads: {
-    insert: spreads({
-      userSchema: createInsertSchema(dbSchema.userSchema, {
-        email: t.String({ format: "email" })
-      }),
-      tokenSchema: createInsertSchema(dbSchema.tokenSchema),
-    }, 'insert'),
-    select: spreads({
-      userSchema: createSelectSchema(dbSchema.userSchema, {
-        email: t.String({ format: "email" })
-      }),
-      tokenSchema: createSelectSchema(dbSchema.tokenSchema),
-    }, 'select')
-  }
-} as const
+	typebox: {
+		insert: {
+			userSchema: createInsertSchema(dbSchema.userSchema, {
+				email: t.String({ format: "email" }),
+			}),
+			tokenSchema: createInsertSchema(dbSchema.tokenSchema),
+		},
+		select: {
+			userSchema: createSelectSchema(dbSchema.userSchema, {
+				email: t.String({ format: "email" }),
+			}),
+			tokenSchema: createSelectSchema(dbSchema.tokenSchema),
+		},
+	},
+	spreads: {
+		insert: spreads(
+			{
+				userSchema: createInsertSchema(dbSchema.userSchema, {
+					email: t.String({ format: "email" }),
+				}),
+				tokenSchema: createInsertSchema(dbSchema.tokenSchema),
+			},
+			"insert",
+		),
+		select: spreads(
+			{
+				userSchema: createSelectSchema(dbSchema.userSchema, {
+					email: t.String({ format: "email" }),
+				}),
+				tokenSchema: createSelectSchema(dbSchema.tokenSchema),
+			},
+			"select",
+		),
+	},
+} as const;

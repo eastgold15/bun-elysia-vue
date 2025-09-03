@@ -18,7 +18,6 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "docker": true,
-    
   },
   "debug.onTaskErrors": "debugAnyway",
   "diffEditor.ignoreTrimWhitespace": false,

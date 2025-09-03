@@ -1,10 +1,9 @@
-import * as page from "client:page";
+
 import { Elysia } from "elysia";
 import { renderToString } from "vue/server-renderer";
 import { createApp } from "@/app/app";
+import * as page from "client:page";
 import { api } from "./src";
-
-
 
 const app = new Elysia()
   .onRequest(async ({ request }) => {
@@ -12,10 +11,10 @@ const app = new Elysia()
 
     const { app, router } = await createApp();
 
-    // 如果是API路由，跳后端，不需要被前端拦截
-    if (pathname.startsWith("/api")) {
-      return;
-    }
+    // // 如果是API路由，跳后端，不需要被前端拦截
+    // if (pathname.startsWith("/api")) {
+    //   return;
+    // }
 
     const { matched } = router.resolve(pathname);
     if (!matched.length) return;
@@ -33,5 +32,3 @@ const app = new Elysia()
 export default app;
 
 export type EndApp = typeof app;
-1
-

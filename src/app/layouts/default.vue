@@ -1,6 +1,6 @@
 <script setup>
-import { client } from "@/share/useTreaty";
 import { onMounted, onUnmounted, ref } from "vue";
+import { client } from "@/share/useTreaty";
 import { handleApiRes } from "../utools/handleApiRes";
 
 const showHeader = ref(false);
@@ -8,52 +8,42 @@ const showFooter = ref(false);
 const scrollContainer = ref(null);
 
 const handleScroll = () => {
-  if (scrollContainer.value) {
-    const { scrollTop, scrollHeight, clientHeight } = scrollContainer.value;
+	if (scrollContainer.value) {
+		const { scrollTop, scrollHeight, clientHeight } = scrollContainer.value;
 
-    // 向下滚动超过50px时显示header
-    showHeader.value = scrollTop > 50;
+		// 向下滚动超过50px时显示header
+		showHeader.value = scrollTop > 50;
 
-    // 滚动到接近底部时显示footer
-    showFooter.value = scrollTop + clientHeight >= scrollHeight - 100;
-  }
+		// 滚动到接近底部时显示footer
+		showFooter.value = scrollTop + clientHeight >= scrollHeight - 100;
+	}
 };
 
 onMounted(async () => {
-  if (scrollContainer.value) {
-    scrollContainer.value.addEventListener("scroll", handleScroll);
-  }
+	if (scrollContainer.value) {
+		scrollContainer.value.addEventListener("scroll", handleScroll);
+	}
 });
 
 onUnmounted(() => {
-  if (scrollContainer.value) {
-    scrollContainer.value.removeEventListener("scroll", handleScroll);
-  }
+	if (scrollContainer.value) {
+		scrollContainer.value.removeEventListener("scroll", handleScroll);
+	}
 });
 
+const userlist = ref();
 
-const userlist = ref()
+onMounted(fetchUserList);
 
+async function fetchUserList() {
+	const res = await handleApiRes(client.api.user.get());
+	if (!res) {
+		return Error("获取用户列表失败");
+	}
+	userlist.value = res.data;
 
-onMounted(
-  fetchUserList
-)
-
-
-async function fetchUserList () {
-
-  const res = await handleApiRes(client.api.user.get())
-  if (!res) {
-    return Error("获取用户列表失败")
-  }
-  userlist.value = res.data
-
-
-  console.log(res.data)
-
-
+	console.log(res.data);
 }
-
 </script>
 
 <template>

@@ -4,12 +4,12 @@ import {
   createRouter,
   createWebHistory,
 } from "vue-router";
-import App from "./App.vue";
 
+import App from "./App.vue";
 import "virtual:uno.css";
 
 import Aura from "@primevue/themes/aura";
-import { createPinia } from "pinia";
+
 import PrimeVue from "primevue/config";
 export const createApp = async () => {
   const app = createSSRApp(App);
@@ -36,8 +36,7 @@ export const createApp = async () => {
     ],
   });
 
-  const pinia = createPinia();
-  app.use(pinia);
+
 
   app.use(PrimeVue, {
     theme: {

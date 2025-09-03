@@ -6,8 +6,6 @@ import { Elysia } from "elysia";
 // import { AppError } from "../decorators/base";
 // import { getErrorMeta } from "../decorators/metadata";
 
-
-
 // /**
 //  * 错误信息安全处理函数
 //  * @param error 原始错误对象
@@ -59,8 +57,6 @@ import { Elysia } from "elysia";
 //     const safeError = error instanceof Error ? error : new Error(String(error));
 //     const sanitized = sanitizeError(safeError, isDev);
 
-
-
 //     // 1. 优先处理业务错误 (自定义AppError)
 //     if (error instanceof AppError) {
 //       const meta = getErrorMeta(error);
@@ -84,12 +80,10 @@ import { Elysia } from "elysia";
 //     });
 //   })
 
-
-
 export const err_handler = new Elysia()
-  .onError(({ error, path }) => {
-    console.groupCollapsed(`🔴 ${path} 路由错误`);
-    console.trace(error); // 显示调用栈
-    console.groupEnd();
-  })
-  .as("global");
+	.onError(({ error, path }) => {
+		console.groupCollapsed(`🔴 ${path} 路由错误`);
+		console.trace(error); // 显示调用栈
+		console.groupEnd();
+	})
+	.as("global");

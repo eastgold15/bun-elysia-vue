@@ -1,24 +1,13 @@
 {
   "extends": "@pori15/config/tsconfig/bundler.json",
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "paths": {
       "@": [
         "./src"
       ],
       "@/*": [
         "./src/*"
-      ],
-      "@server": [
-        "./src/server"
-      ],
-      "@app/*": [
-        "./src/server/*"
-      ],
-      "@share": [
-        "./src/share"
-      ],
+      ]
     }
   }
 }

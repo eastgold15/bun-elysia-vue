@@ -1,5 +1,5 @@
 import Elysia from "elysia";
-import { type CommonRes, RW } from "./ResponseSchema";
+import { RW } from "./ResponseSchema";
 
 const afterHandlePlugin = new Elysia()
 	.macro({
