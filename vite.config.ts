@@ -2,15 +2,17 @@ import { PrimeVueResolver } from "@primevue/auto-import-resolver";
 import vue from "@vitejs/plugin-vue";
 import { domco } from "domco";
 import UnoCSS from "unocss/vite";
-
+import { adapter } from "@domcojs/vercel";
 import Components from "unplugin-vue-components/vite";
 import { defineConfig } from "vite";
+
+
 
 export default defineConfig({
   plugins: [
     vue(),
     UnoCSS(), // add UnoCSS plugin
-    domco(),
+    domco({ adapter: adapter() }),
     Components({
       // 自动导入组件的目录
       dirs: ['src/app/components', 'src/app/layouts', 'src/app/pages'],

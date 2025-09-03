@@ -11,7 +11,6 @@ import "virtual:uno.css";
 import Aura from "@primevue/themes/aura";
 import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
-
 export const createApp = async () => {
   const app = createSSRApp(App);
   const router = createRouter({

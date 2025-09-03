@@ -12,3 +12,4 @@ src/server/docker/*
 
 
 src/docker/*
+docker/*

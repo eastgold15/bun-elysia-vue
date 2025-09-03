@@ -4,6 +4,8 @@ import { renderToString } from "vue/server-renderer";
 import { createApp } from "@/app/app";
 import { api } from "./src";
 
+
+
 const app = new Elysia()
   .onRequest(async ({ request }) => {
     const { pathname } = new URL(request.url);
@@ -31,3 +33,5 @@ const app = new Elysia()
 export default app;
 
 export type EndApp = typeof app;
+1
+
