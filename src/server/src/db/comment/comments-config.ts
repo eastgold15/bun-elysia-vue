@@ -9,7 +9,7 @@ import { db } from "../connection";
 import { dbSchema } from "../schema/index";
 
 type ColumnComments<T extends Table> = {
-	[K in keyof T["_"]["columns"]]: string;
+  [K in keyof T["_"]["columns"]]: string;
 };
 
 const comments: [Table, ColumnComments<Table>][] = [];
@@ -21,68 +21,75 @@ const comments: [Table, ColumnComments<Table>][] = [];
  * @param columnComments 要添加到表的列注释
  */
 export function pgComments<T extends Table>(
-	table: T,
-	columnComments: ColumnComments<T>,
+  table: T,
+  columnComments: ColumnComments<T>,
 ) {
-	comments.push([table, columnComments]);
+  comments.push([table, columnComments]);
 }
 
 /**
  * 运行添加注释的SQL命令
  */
 export async function runPgComments(db: any) {
-	function escapeIdentifier(identifier: string): string {
-		return `"${identifier.replace(/"/g, '""')}"`;
-	}
-	function escapeString(str: string): string {
-		return `'${str.replace(/'/g, "''")}'`;
-	}
+  function escapeIdentifier(identifier: string): string {
+    return `"${identifier.replace(/"/g, '""')}"`;
+  }
+  function escapeString(str: string): string {
+    return `'${str.replace(/'/g, "''")}'`;
+  }
 
-	await db.transaction(async (tx: any) => {
-		for (const [table, columnComments] of comments) {
-			for (const [columnName, comment] of Object.entries(columnComments)) {
-				const column = getTableColumns(table)[columnName];
+  await db.transaction(async (tx: any) => {
+    for (const [table, columnComments] of comments) {
+      for (const [columnTableName, comment] of Object.entries(columnComments)) {
+        const column = getTableColumns(table)[columnTableName];
 
-				// 预处理语句不适用于COMMENT ON COLUMN
-				// 以下行会抛出 `syntax error at or near "$1"`
-				// await tx.execute(sql`COMMENT ON COLUMN ${column} IS ${comment}`);
+        // 预处理语句不适用于COMMENT ON COLUMN
+        // 以下行会抛出 `syntax error at or near "$1"`
+        // await tx.execute(sql`COMMENT ON COLUMN ${column} IS ${comment}`);
 
-				// 所以我们必须使用原始SQL
-				const escapedQuery = sql.raw(
-					`COMMENT ON COLUMN ${escapeIdentifier(getTableName(table))}.${escapeIdentifier(column?.name)} IS ${escapeString(comment)}`,
-				);
-				await tx.execute(escapedQuery);
-			}
-		}
-	});
-	console.log("列注释添加成功");
+        const columnName: string | undefined = column?.name;
+        if (!columnName) {
+          console.warn(`列 "${columnName}" 不存在于表 "${getTableName(table)}" 中，跳过注释。`);
+          continue;
+        }
+
+
+        // 所以我们必须使用原始SQL
+        const escapedQuery = sql.raw(
+          `COMMENT ON COLUMN ${escapeIdentifier(getTableName(table))}.${escapeIdentifier(columnName)} IS ${escapeString(comment)}`,
+        );
+        await tx.execute(escapedQuery);
+      }
+    }
+  });
+  console.log("列注释添加成功");
 }
 
 /**
  * 数据库注释配置
  */
 export const dbComments = {
-	userSchema: {
-		id: "主键",
-		username: "",
-		password: "OAuth用户可能没有密码",
-		email: "",
-		phone: "",
-		nickname: "",
-		avatar: "",
-		role: "user, admin",
-		userState: "active, inactive",
-		googleId: "OAuth 相关字段 Google OAuth ID",
-		createdAt: "",
-		updatedAt: "",
-	},
-	tokenSchema: {
-		id: "主键",
-		ownerId: "token所有者ID",
-		accessToken: "访问令牌",
-		refreshToken: "刷新令牌",
-		createdAt: "创建时间",
-	},
+  userSchema: {
+    id: "主键",
+    username: "",
+    password: "OAuth用户可能没有密码",
+    email: "",
+    phone: "",
+    nickname: "",
+    avatar: "",
+    role: "user, admin",
+    userState: "active, inactive",
+    googleId: "OAuth 相关字段 Google OAuth ID",
+    createdAt: "",
+    updatedAt: "",
+  },
+  tokenSchema: {
+    id: "主键",
+    ownerId: "token所有者ID",
+    accessToken: "访问令牌",
+    refreshToken: "刷新令牌",
+    createdAt: "创建时间",
+  },
 } as const;
 
 /**
@@ -90,10 +97,10 @@ export const dbComments = {
  * 在数据库迁移后调用此函数来添加注释
  */
 export function applyDbComments(db: any) {
-	pgComments(dbSchema.userSchema, dbComments.userSchema);
-	pgComments(dbSchema.tokenSchema, dbComments.tokenSchema);
+  pgComments(dbSchema.userSchema, dbComments.userSchema);
+  pgComments(dbSchema.tokenSchema, dbComments.tokenSchema);
 
-	return runPgComments(db);
+  return runPgComments(db);
 }
 
 applyDbComments(db);

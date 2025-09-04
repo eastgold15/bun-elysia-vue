@@ -36,8 +36,6 @@ export const createApp = async () => {
     ],
   });
 
-
-
   app.use(PrimeVue, {
     theme: {
       preset: Aura,
