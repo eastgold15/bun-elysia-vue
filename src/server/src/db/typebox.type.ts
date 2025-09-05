@@ -4,12 +4,12 @@
  * 请勿手动修改此文件
  */
 
-import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
-import { t } from "elysia";
-import { spreads } from "../utils/dizzle.type";
+import { t } from 'elysia'
+import { createInsertSchema, createSelectSchema } from 'drizzle-typebox'
 
 
-import { dbSchema } from "./schema/index";
+import { dbSchema } from './schema/index'
+import { spreads } from '../utils/dizzle.type'
 
 /**
  * 数据库 TypeBox 配置
@@ -18,35 +18,29 @@ export const DbType = {
   typebox: {
     insert: {
       userSchema: createInsertSchema(dbSchema.userSchema, {
-        email: t.String({ format: "email" }),
+        email: t.String({ format: "email" })
       }),
       tokenSchema: createInsertSchema(dbSchema.tokenSchema),
     },
     select: {
       userSchema: createSelectSchema(dbSchema.userSchema, {
-        email: t.String({ format: "email" }),
+        email: t.String({ format: "email" })
       }),
       tokenSchema: createSelectSchema(dbSchema.tokenSchema),
-    },
+    }
   },
   spreads: {
-    insert: spreads(
-      {
-        userSchema: createInsertSchema(dbSchema.userSchema, {
-          email: t.String({ format: "email" }),
-        }),
-        tokenSchema: createInsertSchema(dbSchema.tokenSchema),
-      },
-      "insert",
-    ),
-    select: spreads(
-      {
-        userSchema: createSelectSchema(dbSchema.userSchema, {
-          email: t.String({ format: "email" }),
-        }),
-        tokenSchema: createSelectSchema(dbSchema.tokenSchema),
-      },
-      "select",
-    ),
-  },
-} as const;
+    insert: spreads({
+      userSchema: createInsertSchema(dbSchema.userSchema, {
+        email: t.String({ format: "email" })
+      }),
+      tokenSchema: createInsertSchema(dbSchema.tokenSchema),
+    }, 'insert'),
+    select: spreads({
+      userSchema: createSelectSchema(dbSchema.userSchema, {
+        email: t.String({ format: "email" })
+      }),
+      tokenSchema: createSelectSchema(dbSchema.tokenSchema),
+    }, 'select')
+  }
+} as const

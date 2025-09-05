@@ -5,8 +5,8 @@
  */
 
 import { getTableColumns, getTableName, sql, type Table } from "drizzle-orm";
-import { db } from "../connection";
 import { dbSchema } from "../schema/index";
+import { db } from "../connection";
 
 type ColumnComments<T extends Table> = {
   [K in keyof T["_"]["columns"]]: string;
@@ -40,23 +40,16 @@ export async function runPgComments(db: any) {
 
   await db.transaction(async (tx: any) => {
     for (const [table, columnComments] of comments) {
-      for (const [columnTableName, comment] of Object.entries(columnComments)) {
-        const column = getTableColumns(table)[columnTableName];
+      for (const [columnName, comment] of Object.entries(columnComments)) {
+        const column = getTableColumns(table)[columnName];
 
         // 预处理语句不适用于COMMENT ON COLUMN
         // 以下行会抛出 `syntax error at or near "$1"`
         // await tx.execute(sql`COMMENT ON COLUMN ${column} IS ${comment}`);
 
-        const columnName: string | undefined = column?.name;
-        if (!columnName) {
-          console.warn(`列 "${columnName}" 不存在于表 "${getTableName(table)}" 中，跳过注释。`);
-          continue;
-        }
-
-
         // 所以我们必须使用原始SQL
         const escapedQuery = sql.raw(
-          `COMMENT ON COLUMN ${escapeIdentifier(getTableName(table))}.${escapeIdentifier(columnName)} IS ${escapeString(comment)}`,
+          `COMMENT ON COLUMN ${escapeIdentifier(getTableName(table))}.${escapeIdentifier(column?.name)} IS ${escapeString(comment)}`
         );
         await tx.execute(escapedQuery);
       }
@@ -81,16 +74,16 @@ export const dbComments = {
     userState: "active, inactive",
     googleId: "OAuth 相关字段 Google OAuth ID",
     createdAt: "",
-    updatedAt: "",
+    updatedAt: ""
   },
   tokenSchema: {
-    id: "主键",
-    ownerId: "token所有者ID",
-    accessToken: "访问令牌",
-    refreshToken: "刷新令牌",
-    createdAt: "创建时间",
-  },
-} as const;
+    id: "",
+    ownerId: "",
+    accessToken: "",
+    refreshToken: "",
+    createdAt: ""
+  }
+} as const
 
 /**
  * 应用数据库注释
@@ -102,5 +95,4 @@ export function applyDbComments(db: any) {
 
   return runPgComments(db);
 }
-
-applyDbComments(db);
+applyDbComments(db)
