@@ -1,3 +1,11 @@
+import App from "./App.vue";
+import UserView from "./pages/UserView.vue";
+import HomeView from "./pages/HomeView.vue";
+import Layout from "./layouts/default.vue";
+
+
+
+
 import { createSSRApp } from "vue";
 import {
   createMemoryHistory,
@@ -5,7 +13,7 @@ import {
   createWebHistory,
 } from "vue-router";
 
-import App from "./App.vue";
+
 // 仅在客户端加载 UnoCSS 生成的样式
 if (!import.meta.env.SSR) {
   await import("virtual:uno.css");
@@ -21,18 +29,18 @@ export const createApp = async () => {
     routes: [
       {
         path: "/",
-        component: () => import("./layouts/default.vue"),
+        component: Layout,
         redirect: "home",
         children: [
           {
             path: "home",
             name: "home",
-            component: () => import("./pages/HomeView.vue"),
+            component: HomeView,
           },
           {
             path: "/users",
             name: "users",
-            component: () => import("./pages/UserView.vue"),
+            component: UserView,
           },
         ],
       },
