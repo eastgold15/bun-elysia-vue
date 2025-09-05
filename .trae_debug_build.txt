@@ -1,0 +1,19 @@
+[36mvite v7.1.3 [32mbuilding for production...[36m[39m
+Rollup warning: {
+  code: "EMPTY_BUNDLE",
+  message: "Generated an empty chunk: \"drizzle\".",
+  names: [ "drizzle" ],
+  toString: [Function: value],
+}
+Generated an empty chunk: "drizzle".
+[32m鉁?built in 1.52s[39m
+
+[36mvite v7.1.3 [32mbuilding SSR bundle for production...[36m[39m
+transforming...
+[32m鉁?[39m 27 modules transformed.
+
+[36mdomco v4.3.0[39m [32mprerendering static pages...[39m
+Error: Failed to import: file:///D:/Users/boer/Desktop/test2/dist/server/app.js
+error: Cannot find module 'D:\Users\boer\Desktop\test2\dist\server\app.js' from 'D:\Users\boer\Desktop\test2\node_modules\domco\dist\plugin\lifecycle\index.js'
+no prerender paths provided.
+鉁?[39m Build failed in 18.84s
