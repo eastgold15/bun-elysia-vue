@@ -81,7 +81,13 @@ import { Elysia } from "elysia";
 //   })
 
 export const err_handler = new Elysia()
-	.onError(({ error, path }) => {
+	.onError(({ error, path, code, set }) => {
+		// 忽略 Chrome DevTools 的特定路由错误
+		if (path === "/.well-known/appspecific/com.chrome.devtools.json") {
+			set.status = 404;
+			return { message: "Not Found" };
+		}
+
 		console.groupCollapsed(`🔴 ${path} 路由错误`);
 		console.trace(error); // 显示调用栈
 		console.groupEnd();

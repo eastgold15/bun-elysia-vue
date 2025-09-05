@@ -3,11 +3,11 @@ import { drizzle } from "drizzle-orm/bun-sql";
 import * as schema from "./schema/index";
 
 // Bun 内置的 SQL 客户端实例
-const client = new SQL(process.env.DATABASE_URL!);
+const client = new SQL(process.env.DATABASE_URL || "");
 // 创建 Drizzle ORM 实例
 export const db = drizzle({
   connection: {
-    url: process.env.DATABASE_URL!,
+    url: process.env.DATABASE_URL || '',
   },
   schema,
   client,
